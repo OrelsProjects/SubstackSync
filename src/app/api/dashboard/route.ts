@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
         updatedAt: log.updatedAt,
       })),
       integrationStatus: {
-        gmailConnected: !!user.gmailIntegration,
+        gmailConnected: !!user.gmailIntegration?.isWatching,
         kitConnected: !!user.kitIntegration,
         gmailWatchExpiry: user.gmailIntegration?.watchExpiry || null,
       },

@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
 
 async function processGmailHistory(userId: string, historyId: string) {
   try {
+    console.log("[TESTING] Processing Gmail history for user:", userId);
     const gmailService = new GmailService(userId);
     await gmailService.initialize();
 
@@ -73,13 +74,24 @@ async function processGmailHistory(userId: string, historyId: string) {
       where: { userId },
     });
 
-    if (!integration?.historyId) {
-      console.error("No stored history ID for user:", userId);
+    console.log("[TESTING] Gmail integration found for user:", integration);
+
+    if (!integration) {
+      console.error("No Gmail integration found for user:", userId);
       return;
     }
 
+    if (integration.historyId !== historyId) {
+      await prisma.gmailIntegration.update({
+        where: { userId },
+        data: { historyId },
+      });
+    }
+
+    console.log("[TESTING] History ID updated for user:", userId);
+
     // Get history changes
-    const history = await gmailService.getHistory(integration.historyId);
+    const history = await gmailService.getHistory(historyId);
     // Update the history ID
     if (history.historyId) {
       await prisma.gmailIntegration.update({
@@ -87,6 +99,8 @@ async function processGmailHistory(userId: string, historyId: string) {
         data: { historyId: history.historyId },
       });
     }
+
+    console.log("[TESTING] History updated for user:", userId);
 
     if (!history.history) {
       // No new messages
@@ -98,7 +112,10 @@ async function processGmailHistory(userId: string, historyId: string) {
       if (historyRecord.messagesAdded) {
         for (const messageAdded of historyRecord.messagesAdded) {
           const messageId = messageAdded.message?.id;
+          console.log("[TESTING] Message ID:", messageId);
           if (!messageId) continue;
+
+          console.log("[TESTING] Processing new message:", messageId);
 
           await processNewMessage(userId, messageId);
         }
@@ -118,8 +135,11 @@ async function processNewMessage(userId: string, messageId: string) {
     // Get the full message
     const message = await gmailService.getMessageDetails(messageId);
 
+    console.log("[TESTING] Message:", message);
+
     // Check if it's a Substack subscriber email
     if (!SubstackEmailParser.isSubstackSubscriberEmail(message)) {
+      console.log("[TESTING] Message is not a Substack subscriber email:", messageId);
       return;
     }
 
@@ -127,8 +147,11 @@ async function processNewMessage(userId: string, messageId: string) {
     const subscriber = SubstackEmailParser.parseSubscriberEmail(message);
     if (!subscriber) {
       console.error("Failed to parse subscriber from message:", messageId);
+      console.log("[TESTING] Failed to parse subscriber from message:", messageId);
       return;
     }
+
+    console.log("[TESTING] Subscriber parsed from message:", subscriber);
 
     // Log the subscriber
     const subscriberLog = await prisma.subscriberLog.upsert({

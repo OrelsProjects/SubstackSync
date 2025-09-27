@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { GmailService } from "@/lib/gmail/service";
 import { google } from "googleapis";
 import { getUserById } from "@/utils/dal/user";
-import { stopGmailWatch } from "@/lib/gmail/watch";
+import { startGmailWatch, stopGmailWatch } from "@/lib/gmail/watch";
 
 export async function GET(request: NextRequest) {
   try {
@@ -77,10 +77,7 @@ export async function GET(request: NextRequest) {
 
     // Set up Gmail watch
     try {
-      await stopGmailWatch(userId);
-      const gmailService = new GmailService(userId);
-      await gmailService.initialize();
-      await gmailService.setupWatch();
+      await startGmailWatch(userId, { stopCurrentWatch: true });
     } catch (watchError) {
       console.error("Failed to setup Gmail watch:", watchError);
       // Continue anyway - we can retry later

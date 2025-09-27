@@ -17,7 +17,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-
+const env = process.env.NODE_ENV === "development" ? "dev" : "";
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME as string;
 const APP_DEFAULT_TITLE = process.env.NEXT_PUBLIC_APP_DEFAULT_TITLE as string;
 const APP_TITLE_TEMPLATE = process.env.NEXT_PUBLIC_APP_TITLE_TEMPLATE as string;
@@ -30,7 +30,7 @@ const TWITTER_OG_IMAGE_URL = process.env
 export const metadata: Metadata = {
   applicationName: APP_NAME, // Name of the application, used in app manifest files and app listing.
   title: {
-    default: APP_DEFAULT_TITLE, // The default title shown on the browser tab if a specific page title is not set.
+    default: env + " " + APP_DEFAULT_TITLE, // The default title shown on the browser tab if a specific page title is not set.
     template: APP_TITLE_TEMPLATE, // Template for titles to include page-specific titles followed by a default name.
   },
   description: APP_DESCRIPTION, // A brief description of the app, often used in search engines for SEO.
