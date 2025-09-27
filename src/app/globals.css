@@ -1,0 +1,871 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  height: 0;
+}
+
+/* html {
+  scroll-behavior: smooth;
+} */
+
+[data-scroll-container] {
+  overflow: hidden;
+}
+
+/* SF Pro Display Font Declarations */
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYBLACKITALIC.OTF") format("opentype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYHEAVYITALIC.OTF") format("opentype");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYBOLD.OTF") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYSEMIBOLDITALIC.OTF") format("opentype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYMEDIUM.OTF") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYREGULAR.OTF") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYLIGHTITALIC.OTF") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYTHINITALIC.OTF") format("opentype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SFPRODISPLAYULTRALIGHTITALIC.OTF") format("opentype");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 20 100% 55%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 232 5.3% 40.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 24.6 95% 53.1%;
+    --radius: 0.5rem;
+
+    --chart-1: 224.3 74% 54.2%; /* Strong mid-blue */
+    --chart-2: 226.8 69% 49.7%; /* Muted but bold blue */
+    --chart-3: 222.1 78% 43.6%; /* Grittier, darker blue */
+    --chart-4: 228.6 63% 57.9%; /* Dusty indigo vibe */
+    --chart-5: 220.4 80% 47.3%; /* A punchier base tone */
+
+    --sidebar-background: 0 0% 97%;
+    --sidebar-foreground: 20 14% 37%;
+    --sidebar-primary: 25 95% 50%;
+    --sidebar-primary-foreground: 60 9% 0%;
+    --sidebar-accent: 60 5% 75%;
+    --sidebar-accent-foreground: 24 9.8% 10%;
+    --sidebar-border: 20 6% 87%;
+    --sidebar-ring: 25 95% 50%;
+  }
+
+  .dark {
+    --background: 210 4% 9%;
+    --foreground: 60 9.1% 97.8%;
+    --card: 210 4% 11%;
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 210 4% 9%;
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 21 100% 50%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 76.8% 48.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 35.5 91.7% 32.9%;
+    --radius: 0.5rem;
+
+    --chart-1: 224.3 74% 54.2%; /* Strong mid-blue */
+    --chart-2: 226.8 69% 49.7%; /* Muted but bold blue */
+    --chart-3: 222.1 78% 43.6%; /* Grittier, darker blue */
+    --chart-4: 228.6 63% 57.9%; /* Dusty indigo vibe */
+    --chart-5: 220.4 80% 47.3%; /* A punchier base tone */
+
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 60 9% 50%;
+    --sidebar-primary: 25 95% 25%;
+    --sidebar-primary-foreground: 26 83% 100%;
+    --sidebar-accent: 12 7% 7%;
+    --sidebar-accent-foreground: 60 9.1% 97.8%;
+    --sidebar-border: 12 7% 7%;
+    --sidebar-ring: 36 92% 25%;;
+  }
+}
+
+@layer base {
+  .indicator {
+    @apply relative inline-flex max-w-max;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-visible {
+    -ms-overflow-style: auto;
+    scrollbar-width: auto;
+  }
+  /* md screen */
+  @media (min-width: 768px) {
+    /* Size */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track,
+    .scrollbar-visible::-webkit-scrollbar-track {
+      border-radius: 999999px;
+      background: hsla(215.4, 16.3%, 46.9%, 0.2);
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb,
+    .scrollbar-visible::-webkit-scrollbar-thumb {
+      background: hsla(215.4, 16.3%, 46.9%, 0.5);
+      border-radius: 9999px;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* TipTap */
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* General list item styling */
+.tiptap li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.5;
+}
+
+/* Apply dots only to unordered lists */
+.tiptap ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.5em;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.7;
+}
+
+/* Nested dots for unordered lists */
+.tiptap ul ul li::before {
+  left: 0.25em;
+  width: 5px;
+  height: 5px;
+  opacity: 0.5;
+}
+
+.tiptap ul ul ul li::before {
+  left: 0.25em;
+  width: 4px;
+  height: 4px;
+  opacity: 0.4;
+}
+
+/* Add this to ensure proper list indentation */
+.tiptap ul {
+  padding-left: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+/* Ordered list styling */
+.tiptap ol {
+  counter-reset: level1;
+  list-style: none;
+  padding-left: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.tiptap ol > li {
+  counter-increment: level1;
+}
+
+.tiptap ol > li::before {
+  content: counter(level1) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 500;
+}
+
+/* Second level: a, b, c... */
+.tiptap ol ol {
+  counter-reset: level2;
+  padding-left: 0.75em;
+}
+
+.tiptap ol ol > li {
+  counter-increment: level2;
+}
+
+.tiptap ol ol > li::before {
+  content: counter(level2, lower-alpha) ".";
+}
+
+/* Third level: i, ii, iii... */
+.tiptap ol ol ol {
+  counter-reset: level3;
+}
+
+.tiptap ol ol ol > li {
+  counter-increment: level3;
+}
+
+.tiptap ol ol ol > li::before {
+  content: counter(level3, lower-roman) ".";
+}
+
+/* Fourth level: back to numbers */
+.tiptap ol ol ol ol {
+  counter-reset: level4;
+}
+
+.tiptap ol ol ol ol > li {
+  counter-increment: level4;
+}
+
+.tiptap ol ol ol ol > li::before {
+  content: counter(level4) ".";
+}
+
+.note-component-content li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.5;
+}
+
+/* Apply dots only to unordered lists */
+.note-component-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0.5em;
+  top: 0.75em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.7;
+}
+
+/* Nested dots for unordered lists */
+.note-component-content ul ul li::before {
+  left: 0.25em;
+  width: 5px;
+  height: 5px;
+  opacity: 0.5;
+}
+
+.note-component-content ul ul ul li::before {
+  left: 0.25em;
+  width: 4px;
+  height: 4px;
+  opacity: 0.4;
+}
+
+/* Ensure proper list indentation */
+.note-component-content ul {
+  padding-left: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+/* Ordered list styling */
+.note-component-content ol {
+  counter-reset: level1;
+  list-style: none;
+  padding-left: 0.75em;
+  margin-bottom: 0.75em;
+}
+
+.note-component-content ol > li {
+  counter-increment: level1;
+}
+
+.note-component-content ol > li::before {
+  content: counter(level1) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 500;
+}
+
+/* Second level: a, b, c... */
+.note-component-content ol ol {
+  counter-reset: level2;
+  padding-left: 0.75em;
+}
+
+.note-component-content ol ol > li {
+  counter-increment: level2;
+}
+
+.note-component-content ol ol > li::before {
+  content: counter(level2, lower-alpha) ".";
+}
+
+/* Third level: i, ii, iii... */
+.note-component-content ol ol ol {
+  counter-reset: level3;
+}
+
+.note-component-content ol ol ol > li {
+  counter-increment: level3;
+}
+
+.note-component-content ol ol ol > li::before {
+  content: counter(level3, lower-roman) ".";
+}
+
+/* Fourth level: back to numbers */
+.note-component-content ol ol ol ol {
+  counter-reset: level4;
+}
+
+.note-component-content ol ol ol ol > li {
+  counter-increment: level4;
+}
+
+.note-component-content ol ol ol ol > li::before {
+  content: counter(level4) ".";
+}
+
+.text-editor-h1 {
+  font-size: 2em;
+  line-height: 1.16em;
+  margin-top: 1em;
+  margin-bottom: 0.625em;
+  font-weight: bold;
+  @apply !font-sans;
+}
+.text-editor-h2 {
+  font-size: 1.625rem;
+  line-height: 1.16rem;
+  margin-top: 1em;
+  margin-bottom: 0.625rem;
+  font-weight: bold;
+  @apply !font-sans;
+}
+.text-editor-h3 {
+  font-size: 1.375em;
+  line-height: 1.16em;
+  margin-top: 1em;
+  margin-bottom: 0.625em;
+  font-weight: bold;
+  @apply !font-sans;
+}
+.text-editor-h4 {
+  font-size: 1.125em;
+  line-height: 1.16em;
+  margin-top: 1em;
+  margin-bottom: 0.625em;
+  font-weight: bold;
+  @apply !font-sans;
+}
+.text-editor-h5 {
+  font-size: 0.83em;
+  line-height: 1.16em;
+  margin-top: 1em;
+  margin-bottom: 0.625em;
+  font-weight: bold;
+  @apply !font-sans;
+}
+.text-editor-h6 {
+  font-size: 0.67em;
+  line-height: 1.16em;
+  margin-top: 1em;
+  margin-bottom: 0.625em;
+  font-weight: bold;
+  @apply !font-sans;
+}
+
+/* Add to your existing styles */
+[data-active="true"] {
+  @apply bg-primary/10 text-primary;
+}
+
+.tiptap code {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--muted) / 0.4);
+  border-radius: 8px;
+  border: 1px solid hsl(var(--muted-foreground) / 0.2);
+  padding: 0 4px;
+  font-size: 0.9em;
+}
+
+.tiptap blockquote {
+  margin: 6px 0;
+  padding-left: 16px;
+  position: relative;
+  color: hsl(var(--foreground));
+}
+
+.tiptap blockquote::before {
+  content: "";
+  border-radius: 9999px;
+  left: 0;
+  top: 2px;
+  width: 4px;
+  background-color: hsl(var(--muted));
+  position: absolute;
+  bottom: 0;
+}
+
+.tiptap .pullquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  position: relative;
+  text-align: center;
+  font-style: italic;
+  font-size: 1.25rem;
+  border-top: 2px solid hsl(var(--muted));
+  border-bottom: 2px solid hsl(var(--muted));
+}
+
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 1rem auto;
+  display: block;
+}
+
+p:empty::after {
+  content: "\00A0";
+}
+
+.ProseMirror-selectednode {
+  /* @apply flex justify-center; */
+}
+
+/* <p> tags in note-component-content should have padding top 4px and bottom 4px */
+.note-component-content p {
+  @apply pt-1.5 pb-1.5;
+}
+
+.note-component-content ol p {
+  @apply !pt-0 !pb-0;
+}
+
+.landing-section-container {
+  @apply w-screen flex justify-center items-center py-12 md:py-24;
+}
+
+.landing-section-container > div {
+  @apply w-full max-w-7xl;
+}
+
+.landing-section-container h2 {
+  @apply mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-center;
+}
+
+.landing-section-container h3 {
+  @apply text-xl sm:text-2xl font-semibold leading-7;
+}
+
+.landing-section-top {
+  @apply mb-16;
+}
+
+.landing-section-top p {
+  @apply mt-6 text-base leading-6 text-muted-foreground mx-auto max-w-2xl text-center;
+}
+
+.text-loading {
+  @apply text-primary;
+}
+
+.loading-text {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.loading-text-wrapper {
+  position: relative;
+}
+
+.loading-text-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer overlay */
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  animation: shimmer 1.2s;
+}
+
+.shimmer-reverse {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-reverse::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%; /* Start just off the right */
+  width: 150%; /* Wide enough to cross the element */
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  animation: shimmer-reverse 1s;
+}
+
+@keyframes shimmer-reverse {
+  100% {
+    left: -150%; /* End past the left edge */
+  }
+}
+
+/* Keyframes for shimmer */
+@keyframes shimmer {
+  100% {
+    left: 150%;
+  }
+}
+
+.highlight-feature-text {
+  @apply text-primary bg-primary/10 px-1.5 py-0.5 pt-0 rounded-md;
+}
+
+.container {
+  width: 100%;
+  padding-right: 2rem /* 32px */;
+  padding-left: 2rem /* 32px */;
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+.sort-pill {
+  @apply relative overflow-hidden;
+}
+
+.sort-pill::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  @apply translate-x-[-100%] transition-transform duration-500;
+}
+
+.sort-pill:hover::before {
+  @apply translate-x-[100%];
+}
+
+/* Modern Sort Controls */
+.sort-controls {
+  @apply flex items-center gap-2 p-3 bg-card/60 backdrop-blur-sm rounded-xl border border-border/40;
+  @apply shadow-sm hover:shadow-md transition-all duration-300;
+}
+
+.sort-metric-pill {
+  @apply px-3 py-1.5 text-sm font-medium rounded-lg border border-border/50;
+  @apply bg-background/80 hover:bg-primary/5 hover:border-primary/20;
+  @apply transition-all duration-200 cursor-pointer select-none;
+  @apply flex items-center gap-2;
+}
+
+.sort-metric-pill.active {
+  @apply bg-primary/10 border-primary/30 text-primary shadow-sm;
+}
+
+.sort-metric-pill:hover:not(.active) {
+  @apply border-border/80 bg-accent/50;
+}
+
+.sort-direction-btn {
+  @apply p-2 rounded-lg border border-border/50 bg-background/80;
+  @apply hover:bg-primary/5 hover:border-primary/20 transition-all duration-200;
+  @apply flex items-center justify-center min-w-[40px];
+}
+
+.sort-direction-btn.active {
+  @apply bg-primary/10 border-primary/30 text-primary;
+}
+
+.sort-direction-btn svg {
+  @apply transition-transform duration-200;
+}
+
+.sort-direction-btn.desc svg {
+  @apply rotate-180;
+}
+
+.sort-loading-spinner {
+  @apply animate-spin text-primary;
+}
+
+.feature-layout-container {
+  @apply w-full h-full max-w-7xl px-6 md:px-12 mx-auto;
+}
+
+@keyframes shakeZ {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  10% {
+    transform: rotateZ(-2deg);
+  }
+  20% {
+    transform: rotateZ(2deg);
+  }
+  30% {
+    transform: rotateZ(-4deg);
+  }
+  40% {
+    transform: rotateZ(4deg);
+  }
+  50% {
+    transform: rotateZ(-4deg);
+  }
+  60% {
+    transform: rotateZ(4deg);
+  }
+  70% {
+    transform: rotateZ(-2deg);
+  }
+  80% {
+    transform: rotateZ(2deg);
+  }
+  90% {
+    transform: rotateZ(-1deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+.shake-timed {
+  display: inline-block;
+  animation: shakeZ 3s ease-in-out 0s infinite;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  animation-name: shakeZ;
+  animation-duration: 3s;
+  animation-play-state: running;
+  animation-direction: normal;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  animation-name: shakeZ;
+  animation-duration: 3s;
+  animation-delay: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  animation: shakeZ 1s ease-in-out infinite;
+}
+
+/* Trick: only shake for first 60% of 5s cycle (i.e. 3s of shake) */
+@keyframes shakeZ {
+  0%,
+  60%,
+  100% {
+    transform: rotateZ(0deg);
+  }
+  10% {
+    transform: rotateZ(-2deg);
+  }
+  20% {
+    transform: rotateZ(2deg);
+  }
+  30% {
+    transform: rotateZ(-4deg);
+  }
+  40% {
+    transform: rotateZ(4deg);
+  }
+  50% {
+    transform: rotateZ(-2deg);
+  }
+}
+
+/* Subtle glow animation for rank badges */
+@keyframes subtle-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(255, 215, 0, 0.4),
+      0 0 30px rgba(255, 215, 0, 0.2);
+  }
+}
+
+@keyframes silver-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow:
+      0 0 15px rgba(192, 192, 192, 0.4),
+      0 0 25px rgba(192, 192, 192, 0.2);
+  }
+}
+
+@keyframes bronze-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  100% {
+    box-shadow:
+      0 0 15px rgba(205, 127, 50, 0.4),
+      0 0 25px rgba(205, 127, 50, 0.2);
+  }
+}
+
+/* Custom Shimmer Animation for Gold Medal */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-gold {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Smooth transitions for table rows */
+.table-row-hover {
+  transition: background-color 0.2s ease;
+}
+
+@keyframes pulse-slow {
+  50% {
+    opacity: 0.5;
+  }
+}
