@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     if (!user.gmailIntegration || !user.kitIntegration) {
       return NextResponse.json({ 
-        error: 'Both Gmail and ConvertKit integrations must be configured' 
+        error: 'Both Gmail and Kit integrations must be configured' 
       }, { status: 400 });
     }
 
@@ -54,8 +54,8 @@ export async function POST(request: NextRequest) {
     // Process each unprocessed log
     for (const log of unprocessedLogs) {
       try {
-        // TODO: Implement actual ConvertKit API call
-        // const kitService = new ConvertKitService(user.kitIntegration.apiKey);
+        // TODO: Implement actual Kit API call
+        // const kitService = new KitService(user.kitIntegration.apiKey);
         // const result = await kitService.addSubscriber({
         //   email: log.subscriberEmail,
         //   firstName: log.subscriberName,

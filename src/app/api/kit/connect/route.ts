@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Check if user already has a ConvertKit integration
+    // Check if user already has a Kit integration
     const existingIntegration = await prisma.kitIntegration.findUnique({
       where: { userId: user.id },
     });
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'ConvertKit integration updated successfully',
+        message: 'Kit integration updated successfully',
         integration: updatedIntegration,
       });
     } else {
@@ -57,12 +57,12 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'ConvertKit integration created successfully',
+        message: 'Kit integration created successfully',
         integration: newIntegration,
       });
     }
   } catch (error) {
-    console.error('ConvertKit connection error:', error);
+    console.error('Kit connection error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

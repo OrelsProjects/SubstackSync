@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (!user.kitIntegration) {
       return NextResponse.json(
-        { error: "ConvertKit integration not configured" },
+        { error: "Kit integration not configured" },
         { status: 400 }
       );
     }
@@ -56,15 +56,15 @@ export async function POST(request: NextRequest) {
 
     if (subscriberLog.addedToKit) {
       return NextResponse.json(
-        { error: "Subscriber already added to ConvertKit" },
+        { error: "Subscriber already added to Kit" },
         { status: 400 }
       );
     }
 
-    // Here you would implement the actual ConvertKit API call
+    // Here you would implement the actual Kit API call
     // For now, we'll simulate a successful retry
     try {
-      // TODO: Implement actual ConvertKit API call
+      // TODO: Implement actual Kit API call
       const kitService = new KitService(user.kitIntegration.apiKey);
       const result = await kitService.addSubscriber({
         email: subscriberLog.subscriberEmail,
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
       if (!result) {
         return NextResponse.json(
-          { error: "Failed to add subscriber to ConvertKit" },
+          { error: "Failed to add subscriber to Kit" },
           { status: 500 }
         );
       }

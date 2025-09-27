@@ -36,31 +36,31 @@ export const DashboardHeader = ({ className }: DashboardHeaderProps) => {
           <Link href="/home" className="text-primary font-medium">
             Dashboard
           </Link>
-          <Link
+          {/* <Link
             href="/connections"
             className="text-muted-foreground hover:text-foreground"
           >
             Connections
-          </Link>
+          </Link> */}
           <Link
             href="/settings"
             className="text-muted-foreground hover:text-foreground"
           >
             Settings
           </Link>
-          <Link
+          {/* <Link
             href="/help"
             className="text-muted-foreground hover:text-foreground"
           >
             Help
-          </Link>
+          </Link> */}
         </nav>
 
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm" className="relative">
+          {/* <Button variant="ghost" size="sm" className="relative">
             <Bell className="h-4 w-4" />
             <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-          </Button>
+          </Button> */}
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-medium">
               {session?.user?.name?.charAt(0) ||

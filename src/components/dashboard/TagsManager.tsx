@@ -67,7 +67,7 @@ export const TagsManager = ({ className }: TagsManagerProps) => {
       );
     } catch (error) {
       console.error("Failed to fetch tags:", error);
-      toast.error("Failed to fetch tags from ConvertKit");
+      toast.error("Failed to fetch tags from Kit");
     } finally {
       setLoading(false);
     }
@@ -138,7 +138,7 @@ export const TagsManager = ({ className }: TagsManagerProps) => {
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle>ConvertKit Tag Configuration</CardTitle>
+        <CardTitle>Kit Tag Configuration</CardTitle>
         <CardDescription>
           Configure which tags to add to subscribers based on their subscription
           type

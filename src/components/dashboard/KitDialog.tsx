@@ -16,13 +16,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface ConvertKitDialogProps {
+interface KitDialogProps {
   children: React.ReactNode;
   onConnect?: (apiKey: string, apiSecret?: string) => Promise<void>;
   loading?: boolean;
 }
 
-export const ConvertKitDialog = ({ children, onConnect, loading = false }: ConvertKitDialogProps) => {
+export const KitDialog = ({ children, onConnect, loading = false }: KitDialogProps) => {
   const [open, setOpen] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [apiSecret, setApiSecret] = useState("");
@@ -38,7 +38,7 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
       setApiKey("");
       setApiSecret("");
     } catch (error) {
-      console.error("Failed to connect ConvertKit:", error);
+      console.error("Failed to connect Kit:", error);
     } finally {
       setIsConnecting(false);
     }
@@ -53,10 +53,10 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
             <div className="w-8 h-8 bg-green-500 rounded flex items-center justify-center">
               <span className="text-white font-bold text-sm">CK</span>
             </div>
-            <span>Connect ConvertKit</span>
+            <span>Connect Kit</span>
           </DialogTitle>
           <DialogDescription>
-            Connect your ConvertKit account to start syncing subscribers
+            Connect your Kit account to start syncing subscribers
             automatically.
           </DialogDescription>
         </DialogHeader>
@@ -68,7 +68,7 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
                 How to get your API credentials
               </CardTitle>
               <CardDescription className="text-xs">
-                You&apos;ll need your API Key and API Secret from ConvertKit
+                You&apos;ll need your API Key and API Secret from Kit
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
@@ -78,13 +78,13 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
                 className="w-full"
                 onClick={() =>
                   window.open(
-                    "https://app.convertkit.com/account_settings/developer_settings",
+                    "https://app.Kit.com/account_settings/developer_settings",
                     "_blank"
                   )
                 }
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
-                Open ConvertKit Settings
+                Open Kit Settings
               </Button>
             </CardContent>
           </Card>
@@ -95,7 +95,7 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
               <Input
                 id="apiKey"
                 type="text"
-                placeholder="Enter your ConvertKit API Key"
+                placeholder="Enter your Kit API Key"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 disabled={isConnecting}
@@ -107,7 +107,7 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
               <Input
                 id="apiSecret"
                 type="password"
-                placeholder="Enter your ConvertKit API Secret"
+                placeholder="Enter your Kit API Secret"
                 value={apiSecret}
                 onChange={(e) => setApiSecret(e.target.value)}
                 disabled={isConnecting}
@@ -137,7 +137,7 @@ export const ConvertKitDialog = ({ children, onConnect, loading = false }: Conve
                   Connecting...
                 </>
               ) : (
-                "Connect ConvertKit"
+                "Connect Kit"
               )}
             </Button>
           </div>

@@ -32,7 +32,7 @@ export const MetricsPanel = ({ metrics, onViewFailures, className }: MetricsPane
           </div>
           <span className="font-bold text-lg">{metrics.thisMonth}</span>
         </div>
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <AlertCircle className="h-4 w-4 text-red-500" />
             <span className="text-sm text-muted-foreground">Failures</span>
@@ -50,7 +50,7 @@ export const MetricsPanel = ({ metrics, onViewFailures, className }: MetricsPane
               View
             </Button>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

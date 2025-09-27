@@ -116,7 +116,7 @@ export const useDashboard = () => {
     }
   }, [dispatch, loadDashboardData]);
 
-  // Connect ConvertKit
+  // Connect Kit
   const connectKit = useCallback(
     async (apiKey: string, apiSecret?: string) => {
       try {
@@ -131,7 +131,7 @@ export const useDashboard = () => {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to connect ConvertKit");
+          throw new Error("Failed to connect Kit");
         }
 
         const result = await response.json();

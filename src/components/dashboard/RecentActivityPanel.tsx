@@ -77,7 +77,7 @@ export const RecentActivityPanel = ({
                     <div>
                       <p className="font-medium">
                         {activity.subscriberName || activity.subscriberEmail}{" "}
-                        {isSuccess ? "added to ConvertKit" : "failed to sync"}
+                        {isSuccess ? "added to Kit" : "failed to sync"}
                       </p>
                       <p className="text-sm text-muted-foreground">
                         {timeAgo}

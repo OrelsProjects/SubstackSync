@@ -138,7 +138,7 @@ export class KitService {
 
   async fetchTags() {
     try {
-      loggerServer.info("Fetching tags from ConvertKit");
+      loggerServer.info("Fetching tags from Kit");
       
       const response = await fetch(`${this.baseUrl}/tags`, {
         method: "GET",
@@ -153,9 +153,9 @@ export class KitService {
       }
 
       const data = await response.json();
-      loggerServer.info(`Fetched ${data.tags?.length || 0} tags from ConvertKit`);
+      loggerServer.info(`Fetched ${data.tags?.length || 0} tags from Kit`);
       
-      // ConvertKit returns tags in { tags: [ { id, name, created_at } ] } format
+      // Kit returns tags in { tags: [ { id, name, created_at } ] } format
       return data.tags || [];
     } catch (error: any) {
       loggerServer.error(`Error fetching tags: ${error.message}`);

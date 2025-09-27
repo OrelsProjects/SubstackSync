@@ -13,21 +13,22 @@ import { Label } from "@/components/ui/label";
 import { Poppins } from "@/utils/fonts";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { 
-  ArrowLeft, 
-  CheckCircle, 
-  Loader, 
-  Mail, 
-  RefreshCw, 
-  Settings, 
+import {
+  ArrowLeft,
+  CheckCircle,
+  Loader,
+  Mail,
+  RefreshCw,
+  Settings,
   Zap,
-  AlertCircle 
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import useAuth from "@/lib/hooks/useAuth";
 
 const fadeInAnimation = {
   initial: { opacity: 0, y: 20 },
@@ -53,12 +54,16 @@ interface Integration {
 export default function SettingsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { authenticateGmail } = useAuth();
   const [loading, setLoading] = useState(false);
   const [integration, setIntegration] = useState<Integration>({});
   const [kitApiKey, setKitApiKey] = useState("");
   const [freeTagName, setFreeTagName] = useState("Substack Free Subscriber");
   const [paidTagName, setPaidTagName] = useState("Substack Paid Subscriber");
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -70,10 +75,10 @@ export default function SettingsPage() {
     try {
       // Fetch Gmail integration status
       const gmailRes = await axios.get("/api/auth/gmail/status");
-      
+
       // Fetch Kit integration status
       const kitRes = await axios.get("/api/kit/setup");
-      
+
       setIntegration({
         gmail: gmailRes.data.integration,
         kit: kitRes.data.integration,
@@ -83,24 +88,11 @@ export default function SettingsPage() {
     }
   };
 
-  const handleGmailConnect = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get("/api/auth/gmail");
-      window.location.href = response.data.authUrl;
-    } catch (error) {
-      console.error("Gmail connect error:", error);
-      setMessage({ type: 'error', text: 'Failed to connect Gmail' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleKitSetup = async () => {
     try {
       setLoading(true);
       setMessage(null);
-      
+
       const response = await axios.post("/api/kit/setup", {
         apiKey: kitApiKey,
         freeTagName,
@@ -108,16 +100,31 @@ export default function SettingsPage() {
       });
 
       if (response.data.success) {
-        setMessage({ type: 'success', text: 'Kit integration setup successfully!' });
+        setMessage({
+          type: "success",
+          text: "Kit integration setup successfully!",
+        });
         setKitApiKey(""); // Clear the API key
         fetchIntegrations(); // Refresh the status
       }
     } catch (error: any) {
       console.error("Kit setup error:", error);
-      setMessage({ 
-        type: 'error', 
-        text: error.response?.data?.error || 'Failed to setup Kit integration' 
+      setMessage({
+        type: "error",
+        text: error.response?.data?.error || "Failed to setup Kit integration",
       });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGmailConnect = async () => {
+    try {
+      setLoading(true);
+      await authenticateGmail();
+    } catch (error) {
+      console.error("Gmail connect error:", error);
+      setMessage({ type: "error", text: "Failed to connect Gmail" });
     } finally {
       setLoading(false);
     }
@@ -125,7 +132,12 @@ export default function SettingsPage() {
 
   if (status === "loading") {
     return (
-      <div className={cn("min-h-screen bg-background flex items-center justify-center", Poppins.className)}>
+      <div
+        className={cn(
+          "min-h-screen bg-background flex items-center justify-center",
+          Poppins.className
+        )}
+      >
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading...</p>
@@ -162,7 +174,8 @@ export default function SettingsPage() {
         <motion.div {...fadeInAnimation} className="mb-8">
           <h1 className="text-3xl font-bold text-primary mb-2">Settings</h1>
           <p className="text-muted-foreground">
-            Configure your Gmail and Kit integrations to start automating your subscriber workflow.
+            Configure your Gmail and Kit integrations to start automating your
+            subscriber workflow.
           </p>
         </motion.div>
 
@@ -172,12 +185,12 @@ export default function SettingsPage() {
             {...fadeInAnimation}
             className={cn(
               "mb-6 p-4 rounded-lg flex items-center space-x-2",
-              message.type === 'success' 
-                ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200" 
+              message.type === "success"
+                ? "bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200"
                 : "bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200"
             )}
           >
-            {message.type === 'success' ? (
+            {message.type === "success" ? (
               <CheckCircle className="h-5 w-5" />
             ) : (
               <AlertCircle className="h-5 w-5" />
@@ -211,8 +224,12 @@ export default function SettingsPage() {
               {integration.gmail?.connected ? (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Connected Email:</span>
-                    <span className="text-sm font-medium">{integration.gmail.email}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Connected Email:
+                    </span>
+                    <span className="text-sm font-medium">
+                      {integration.gmail.email}
+                    </span>
                   </div>
                   <Button
                     onClick={handleGmailConnect}
@@ -257,7 +274,7 @@ export default function SettingsPage() {
                     <Zap className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <CardTitle>Kit (ConvertKit) Integration</CardTitle>
+                    <CardTitle>Kit (Kit) Integration</CardTitle>
                     <CardDescription>
                       Configure your Kit API key and tag settings
                     </CardDescription>
@@ -275,7 +292,11 @@ export default function SettingsPage() {
                   <Input
                     id="apiKey"
                     type="password"
-                    placeholder={integration.kit?.hasApiKey ? "••••••••••••••••" : "Enter your Kit API key"}
+                    placeholder={
+                      integration.kit?.hasApiKey
+                        ? "••••••••••••••••"
+                        : "Enter your Kit API key"
+                    }
                     value={kitApiKey}
                     onChange={(e) => setKitApiKey(e.target.value)}
                     className="mt-1"
@@ -317,7 +338,9 @@ export default function SettingsPage() {
 
                 <Button
                   onClick={handleKitSetup}
-                  disabled={loading || (!kitApiKey && !integration.kit?.hasApiKey)}
+                  disabled={
+                    loading || (!kitApiKey && !integration.kit?.hasApiKey)
+                  }
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                 >
                   {loading ? (
@@ -328,7 +351,9 @@ export default function SettingsPage() {
                   ) : (
                     <>
                       <Settings className="mr-2 h-4 w-4" />
-                      {integration.kit?.connected ? 'Update Kit Settings' : 'Setup Kit Integration'}
+                      {integration.kit?.connected
+                        ? "Update Kit Settings"
+                        : "Setup Kit Integration"}
                     </>
                   )}
                 </Button>
@@ -347,15 +372,18 @@ export default function SettingsPage() {
               <ol className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start">
                   <span className="font-semibold mr-2">1.</span>
-                  Connect your Gmail account to allow SubstackSync to monitor for Substack emails
+                  Connect your Gmail account to allow SubstackSync to monitor
+                  for Substack emails
                 </li>
                 <li className="flex items-start">
                   <span className="font-semibold mr-2">2.</span>
-                  Add your Kit API key and configure the tags for free and paid subscribers
+                  Add your Kit API key and configure the tags for free and paid
+                  subscribers
                 </li>
                 <li className="flex items-start">
                   <span className="font-semibold mr-2">3.</span>
-                  When new subscribers join your Substack, they&apos;ll automatically be added to Kit with the appropriate tags
+                  When new subscribers join your Substack, they&apos;ll
+                  automatically be added to Kit with the appropriate tags
                 </li>
               </ol>
             </CardContent>

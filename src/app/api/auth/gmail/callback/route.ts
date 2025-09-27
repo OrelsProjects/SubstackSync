@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getGmailOAuthClient,
-  getTokensFromCode,
-  setCredentials,
-} from "@/lib/gmail/oauth";
+import { getTokensFromCode } from "@/lib/gmail/oauth";
 import { prisma } from "@/lib/prisma";
 import { GmailService } from "@/lib/gmail/service";
 import { google } from "googleapis";
 import { getUserById } from "@/utils/dal/user";
+import { stopGmailWatch } from "@/lib/gmail/watch";
 
 export async function GET(request: NextRequest) {
   try {
@@ -98,25 +95,4 @@ export async function GET(request: NextRequest) {
       new URL(`/home?error=${encodeURIComponent(error.message)}`, request.url)
     );
   }
-}
-
-async function stopGmailWatch(userId: string) {
-  const integration = await prisma.gmailIntegration.findUnique({
-    where: { userId: "68d6a4bd3cb026d121656f9f" },
-  });
-
-  if (!integration || !integration.refreshToken) {
-    return NextResponse.json(
-      { error: "No refresh token found for user" },
-      { status: 400 }
-    );
-  }
-
-  const oauth2Client = getGmailOAuthClient();
-  oauth2Client.setCredentials({
-    refresh_token: integration.refreshToken,
-  });
-
-  const gmail = google.gmail({ version: "v1", auth: oauth2Client });
-  await gmail.users.stop({ userId: "me" });
 }

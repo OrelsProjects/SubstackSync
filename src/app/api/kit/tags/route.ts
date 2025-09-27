@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Get user and their ConvertKit integration
+    // Get user and their Kit integration
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
       include: {
@@ -25,13 +25,13 @@ export async function GET(request: NextRequest) {
     }
 
     if (!user.kitIntegration) {
-      return NextResponse.json({ error: 'ConvertKit not connected' }, { status: 400 });
+      return NextResponse.json({ error: 'Kit not connected' }, { status: 400 });
     }
 
     // Initialize KitService with the user's API key
     const kitService = new KitService(user.kitIntegration.apiKey);
 
-    // Fetch tags from ConvertKit
+    // Fetch tags from Kit
     const tags = await kitService.fetchTags();
 
     // Return tags along with current configuration
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching ConvertKit tags:', error);
+    console.error('Error fetching Kit tags:', error);
     return NextResponse.json(
       { error: 'Failed to fetch tags' },
       { status: 500 }

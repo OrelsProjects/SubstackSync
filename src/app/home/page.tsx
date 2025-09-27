@@ -4,7 +4,6 @@ import { Poppins } from "@/utils/fonts";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import {
   useDashboard,
   useRecentActivity,
@@ -15,14 +14,11 @@ import {
 
 // Import modular components
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { AlertBanner } from "@/components/dashboard/AlertBanner";
-import { SyncStatusPanel } from "@/components/dashboard/SyncStatusPanel";
 import { SubscriberFlow } from "@/components/dashboard/SubscriberFlow";
 import { RecentActivityPanel } from "@/components/dashboard/RecentActivityPanel";
-import { QuickActions } from "@/components/dashboard/QuickActions";
 import { MetricsPanel } from "@/components/dashboard/MetricsPanel";
-import { HelpSupport } from "@/components/dashboard/HelpSupport";
-import { ComingSoon } from "@/components/dashboard/ComingSoon";
+import useAuth from "@/lib/hooks/useAuth";
+import { toast } from "react-toastify";
 
 const fadeInAnimation = {
   initial: { opacity: 0, y: 20 },
@@ -44,7 +40,7 @@ const animationProps = {
 
 export default function HomePage() {
   const { data: session, status } = useSession();
-  const [showAlert, setShowAlert] = useState(true);
+  const { authenticateGmail } = useAuth();
 
   // Dashboard hooks
   const {
@@ -89,15 +85,21 @@ export default function HomePage() {
     console.log("Live chat clicked");
   };
 
-  const handleConvertKitConnect = async (
-    apiKey: string,
-    apiSecret?: string
-  ) => {
+  const handleKitConnect = async (apiKey: string, apiSecret?: string) => {
     try {
       await connectKit(apiKey, apiSecret);
     } catch (error) {
-      console.error("ConvertKit connection error:", error);
+      console.error("Kit connection error:", error);
       throw error;
+    }
+  };
+
+  const handleGmailConnect = async () => {
+    try {
+      await authenticateGmail();
+    } catch (error) {
+      console.error("Gmail connect error:", error);
+      toast.error("Failed to connect Gmail");
     }
   };
 
@@ -155,17 +157,18 @@ export default function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            <motion.section {...fadeInAnimation}>
+            {/* <motion.section {...fadeInAnimation}>
               <SyncStatusPanel
                 syncStatus={syncStatus}
                 onReconnect={handleReconnect}
               />
-            </motion.section>
+            </motion.section> */}
 
             <motion.section {...animationProps}>
               <SubscriberFlow
                 integrationStatus={integrationStatus}
-                onConvertKitConnect={handleConvertKitConnect}
+                onKitConnect={handleKitConnect}
+                onGmailConnect={handleGmailConnect}
               />
             </motion.section>
 
@@ -178,14 +181,14 @@ export default function HomePage() {
               />
             </motion.section>
 
-            <motion.section {...animationProps}>
+            {/* <motion.section {...animationProps}>
               <QuickActions
                 onAddIntegration={handleAddIntegration}
                 onSyncSettings={handleSyncSettings}
                 onSyncNow={handleManualSync}
                 loading={dashboardLoading}
               />
-            </motion.section>
+            </motion.section> */}
           </div>
 
           {/* Sidebar */}
@@ -196,19 +199,12 @@ export default function HomePage() {
                 onViewFailures={handleViewFailures}
               />
             </motion.section>
-
-            <motion.section {...animationProps}>
-              <HelpSupport
-                onDocumentation={handleDocumentation}
-                onLiveChat={handleLiveChat}
-              />
-            </motion.section>
-
+{/* 
             <motion.section {...animationProps}>
               <ComingSoon
                 integrations={dashboardData?.upcomingIntegrations || []}
               />
-            </motion.section>
+            </motion.section> */}
           </div>
         </div>
       </div>

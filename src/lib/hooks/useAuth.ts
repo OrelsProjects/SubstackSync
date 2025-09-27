@@ -69,6 +69,7 @@ const useAuth = () => {
 
   const signOut = useCallback(async () => {
     try {
+      await axiosInstance.post("/api/auth/gmail/stop-watch");
       await signOutAuth({ callbackUrl: "/" });
       dispatch(clearUser());
       // localStorage.clear();
@@ -104,12 +105,26 @@ const useAuth = () => {
     }
   }, []);
 
+  const authenticateGmail = async () => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get("/api/auth/gmail");
+      window.location.href = response.data.authUrl;
+    } catch (error) {
+      console.error("Gmail connect error:", error);
+      throw new Error("Failed to connect Gmail");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     refreshUserMetadata,
     signInWithGoogle,
     deleteUser,
     signOut,
     loading,
+    authenticateGmail,
   };
 };
 

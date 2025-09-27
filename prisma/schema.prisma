@@ -170,7 +170,7 @@ model GmailIntegration {
   @@map("gmailIntegrations")
 }
 
-// Kit (ConvertKit) Integration
+// Kit integration
 model KitIntegration {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
