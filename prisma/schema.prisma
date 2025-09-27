@@ -79,6 +79,9 @@ model Account {
   id_token          String? @db.String
   session_state     String?
 
+  // custom fields
+  refresh_token_expires_in Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -185,7 +188,7 @@ model KitIntegration {
   // Tag configuration
   freeSubscriberTagIds Int[] @default([])
   paidSubscriberTagIds Int[] @default([])
-  defaultTagIds       Int[] @default([])
+  defaultTagIds        Int[] @default([])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
