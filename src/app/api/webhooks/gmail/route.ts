@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Process the history changes
-    processGmailHistory(gmailIntegration.userId, historyId);
+    await processGmailHistory(gmailIntegration.userId, historyId);
 
     return NextResponse.json({ success: true });
 
