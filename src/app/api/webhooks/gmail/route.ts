@@ -84,7 +84,7 @@ async function processGmailHistory(userId: string, historyId: string) {
     if (integration.historyId !== historyId) {
       await prisma.gmailIntegration.update({
         where: { userId },
-        data: { historyId },
+        data: { historyId: historyId.toString() },
       });
     }
 
@@ -96,7 +96,7 @@ async function processGmailHistory(userId: string, historyId: string) {
     if (history.historyId) {
       await prisma.gmailIntegration.update({
         where: { userId },
-        data: { historyId: history.historyId },
+        data: { historyId: history.historyId.toString() },
       });
     }
 
@@ -135,11 +135,12 @@ async function processNewMessage(userId: string, messageId: string) {
     // Get the full message
     const message = await gmailService.getMessageDetails(messageId);
 
-    console.log("[TESTING] Message:", message);
-
     // Check if it's a Substack subscriber email
     if (!SubstackEmailParser.isSubstackSubscriberEmail(message)) {
-      console.log("[TESTING] Message is not a Substack subscriber email:", messageId);
+      console.log(
+        "[TESTING] Message is not a Substack subscriber email:",
+        messageId
+      );
       return;
     }
 
@@ -147,11 +148,12 @@ async function processNewMessage(userId: string, messageId: string) {
     const subscriber = SubstackEmailParser.parseSubscriberEmail(message);
     if (!subscriber) {
       console.error("Failed to parse subscriber from message:", messageId);
-      console.log("[TESTING] Failed to parse subscriber from message:", messageId);
+      console.log(
+        "[TESTING] Failed to parse subscriber from message:",
+        messageId
+      );
       return;
     }
-
-    console.log("[TESTING] Subscriber parsed from message:", subscriber);
 
     // Log the subscriber
     const subscriberLog = await prisma.subscriberLog.upsert({
