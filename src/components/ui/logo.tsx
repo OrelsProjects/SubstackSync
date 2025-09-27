@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-const APP_NAME = "WriteStack"
+const APP_NAME = "SubstackSync";
 const LOGO = "/logo.png";
 
 export interface LogoProps {

@@ -28,7 +28,7 @@ export const DashboardHeader = ({ className }: DashboardHeaderProps) => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image src="/logo.png" alt="Logo" width={40} height={40} />
-          <span className="text-xl font-bold text-primary">EasySequence</span>
+          <span className="text-xl font-bold text-primary">SubstackSync</span>
         </Link>
 
         {/* Navigation */}

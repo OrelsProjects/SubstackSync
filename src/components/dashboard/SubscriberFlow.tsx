@@ -14,11 +14,11 @@ interface SubscriberFlowProps {
   className?: string;
 }
 
-export const SubscriberFlow = ({ 
-  integrationStatus, 
-  onGmailConnect, 
+export const SubscriberFlow = ({
+  integrationStatus,
+  onGmailConnect,
   onConvertKitConnect,
-  className 
+  className,
 }: SubscriberFlowProps) => {
   return (
     <div className="space-y-6">
@@ -60,12 +60,12 @@ export const SubscriberFlow = ({
 
             <ArrowRight className="h-6 w-6 text-muted-foreground" />
 
-            {/* EasySequence */}
+
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-500 rounded-lg flex items-center justify-center mb-2">
                 <RefreshCw className="h-8 w-8 text-white" />
               </div>
-              <p className="font-medium">EasySequence</p>
+              <p className="font-medium">SubstackSync</p>
               <div className="flex items-center justify-center space-x-1 mt-1">
                 <div
                   className={cn(
@@ -131,9 +131,7 @@ export const SubscriberFlow = ({
       </Card>
 
       {/* Show TagsManager when ConvertKit is connected */}
-      {integrationStatus.kitConnected && (
-        <TagsManager className={className} />
-      )}
+      {integrationStatus.kitConnected && <TagsManager className={className} />}
     </div>
   );
 };

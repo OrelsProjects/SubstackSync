@@ -52,10 +52,7 @@ export default function LoginPage() {
       </div>
 
       {/* Back to home link */}
-      <motion.div
-        {...fadeInAnimation}
-        className="absolute top-8 left-8 z-10"
-      >
+      <motion.div {...fadeInAnimation} className="absolute top-8 left-8 z-10">
         <Link
           href="/"
           className="flex items-center space-x-2 text-muted-foreground hover:text-primary transition-colors"
@@ -67,13 +64,15 @@ export default function LoginPage() {
 
       {/* Main content */}
       <div className="relative z-10 w-full max-w-md mx-auto px-4">
-        <motion.div
-          {...fadeInAnimation}
-          className="text-center mb-8"
-        >
-          <Link href="/" className="flex items-center justify-center space-x-2 mb-6">
+        <motion.div {...fadeInAnimation} className="text-center mb-8">
+          <Link
+            href="/"
+            className="flex items-center justify-center space-x-2 mb-6"
+          >
             <Image src="/logo.png" alt="Logo" width={60} height={60} />
-            <span className="text-3xl font-bold text-primary">SubstackSync</span>
+            <span className="text-3xl font-bold text-primary">
+              SubstackSync
+            </span>
           </Link>
           <h1 className="text-2xl font-bold text-foreground mb-2">
             Welcome back
@@ -133,11 +132,17 @@ export default function LoginPage() {
                 <div className="text-center">
                   <p className="text-xs text-muted-foreground">
                     By signing in, you agree to our{" "}
-                    <Link href="/terms" className="text-primary hover:underline">
+                    <Link
+                      href="/terms"
+                      className="text-primary hover:underline"
+                    >
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-primary hover:underline">
+                    <Link
+                      href="/privacy"
+                      className="text-primary hover:underline"
+                    >
                       Privacy Policy
                     </Link>
                   </p>
@@ -148,12 +153,9 @@ export default function LoginPage() {
         </motion.div>
 
         {/* Features preview */}
-        <motion.div
-          {...fadeInAnimation}
-          className="mt-8 text-center"
-        >
+        <motion.div {...fadeInAnimation} className="mt-8 text-center">
           <p className="text-sm text-muted-foreground mb-4">
-            What you'll get access to:
+            What you&apos;ll get access to:
           </p>
           <div className="grid grid-cols-1 gap-2 text-sm">
             <div className="flex items-center justify-center space-x-2 text-muted-foreground">

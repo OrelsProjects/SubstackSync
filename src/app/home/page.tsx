@@ -81,7 +81,7 @@ export default function HomePage() {
   };
 
   const handleDocumentation = () => {
-    window.open("https://docs.easysequence.com", "_blank");
+    window.open("https://docs.substacksync.com", "_blank");
   };
 
   const handleLiveChat = () => {
