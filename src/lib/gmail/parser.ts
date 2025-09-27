@@ -60,7 +60,8 @@ export class SubstackEmailParser {
     const subject = this.getEmailHeader(message, "subject");
 
     // Check if email is from Substack
-    if (!from?.includes("substack.com")) return false;
+    if (!from?.includes("substack.com") || !from?.includes("writestack.io"))
+      return false;
 
     // Check if subject indicates new subscriber
     if (

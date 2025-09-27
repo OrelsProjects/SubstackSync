@@ -129,6 +129,8 @@ async function processNewMessage(userId: string, messageId: string) {
     // Get the full message
     const message = await gmailService.getMessageDetails(messageId);
 
+    console.log("[TESTING] Message:", message);
+
     // Check if it's a Substack subscriber email
     if (!SubstackEmailParser.isSubstackSubscriberEmail(message)) {
       console.log(
