@@ -60,27 +60,8 @@ export class SubstackEmailParser {
     const subject = this.getEmailHeader(message, "subject");
 
     // Check if email is from Substack
-    if (!from?.includes("substack.com") || !from?.includes("writestack.io"))
-      return false;
-
-    // Check if subject indicates new subscriber
-    if (
-      subject?.includes("New free subscriber") ||
-      subject?.includes("New paid subscriber")
-    ) {
-      return true;
-    }
-
-    // Check body content as fallback
-    const body = this.getEmailBody(message);
-    if (body) {
-      return (
-        body.includes("New free subscriber") ||
-        body.includes("New paid subscriber")
-      );
-    }
-
-    return false;
+    if (!from?.includes("substack.com")) return false;
+    return true;
   }
 
   static parseSubscriberEmail(
