@@ -11,6 +11,7 @@ export class GmailService {
   constructor(userId: string) {
     this.userId = userId;
     this.oauth2Client = getGmailOAuthClient();
+    this.gmail = google.gmail({ version: "v1", auth: this.oauth2Client });
   }
 
   async initialize() {

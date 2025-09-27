@@ -1,85 +1,69 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/auth/authOptions';
-import { prisma } from '@/lib/prisma';
-import { KitService } from '@/lib/kit/service';
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth/authOptions";
+import { prisma } from "@/lib/prisma";
+import { KitService } from "@/lib/kit/service";
 
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
     const { apiKey, freeTagName, paidTagName } = body;
 
     if (!apiKey) {
-      return NextResponse.json({ error: 'API key is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "API key is required" },
+        { status: 400 }
+      );
     }
 
     // Test the API key
-    const kitService = new KitService(session.user.id, apiKey);
-    
+    const kitService = new KitService(apiKey);
+
     try {
-      const tags = await kitService.getTags();
-      
+      const tags = await kitService.fetchTags();
+
       // Find or create tags
       let freeTagId: string | null = null;
       let paidTagId: string | null = null;
-
-      if (freeTagName) {
-        let freeTag = tags.find(t => t.name === freeTagName);
-        if (!freeTag) {
-          freeTag = await kitService.createTag(freeTagName);
-        }
-        freeTagId = freeTag.id.toString();
-      }
-
-      if (paidTagName) {
-        let paidTag = tags.find(t => t.name === paidTagName);
-        if (!paidTag) {
-          paidTag = await kitService.createTag(paidTagName);
-        }
-        paidTagId = paidTag.id.toString();
-      }
 
       // Save Kit integration
       const integration = await prisma.kitIntegration.upsert({
         where: { userId: session.user.id },
         update: {
           apiKey,
-          freeSubscriberTagId: freeTagId,
-          paidSubscriberTagId: paidTagId,
           updatedAt: new Date(),
         },
         create: {
           userId: session.user.id,
           apiKey,
-          freeSubscriberTagId: freeTagId,
-          paidSubscriberTagId: paidTagId,
         },
       });
 
-      return NextResponse.json({ 
-        success: true, 
+      return NextResponse.json({
+        success: true,
         integration: {
           id: integration.id,
-          freeTagId: integration.freeSubscriberTagId,
-          paidTagId: integration.paidSubscriberTagId,
-        }
+        },
       });
     } catch (kitError: any) {
       return NextResponse.json(
-        { error: 'Invalid API key or Kit API error', details: kitError.message },
+        {
+          error: "Invalid API key or Kit API error",
+          details: kitError.message,
+        },
         { status: 400 }
       );
     }
   } catch (error: any) {
-    console.error('Kit setup error:', error);
+    console.error("Kit setup error:", error);
     return NextResponse.json(
-      { error: 'Failed to setup Kit integration' },
+      { error: "Failed to setup Kit integration" },
       { status: 500 }
     );
   }
@@ -88,9 +72,9 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    
+
     if (!session?.user?.id) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const integration = await prisma.kitIntegration.findUnique({
@@ -106,15 +90,13 @@ export async function GET(request: NextRequest) {
       integration: {
         id: integration.id,
         hasApiKey: !!integration.apiKey,
-        freeTagId: integration.freeSubscriberTagId,
-        paidTagId: integration.paidSubscriberTagId,
         createdAt: integration.createdAt,
-      }
+      },
     });
   } catch (error: any) {
-    console.error('Kit get error:', error);
+    console.error("Kit get error:", error);
     return NextResponse.json(
-      { error: 'Failed to get Kit integration' },
+      { error: "Failed to get Kit integration" },
       { status: 500 }
     );
   }
