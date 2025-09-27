@@ -131,8 +131,19 @@ async function processNewMessage(userId: string, messageId: string) {
     }
 
     // Log the subscriber
-    const subscriberLog = await prisma.subscriberLog.create({
-      data: {
+    const subscriberLog = await prisma.subscriberLog.upsert({
+      where: { gmailMessageId: messageId },
+      create: {
+        userId,
+        subscriberEmail: subscriber.email,
+        subscriberName: subscriber.name,
+        subscriptionType: subscriber.isPaid ? "paid" : "free",
+        subscriptionPlan: subscriber.plan,
+        source: subscriber.source,
+        gmailMessageId: messageId,
+        rawEmailData: message as any,
+      },
+      update: {
         userId,
         subscriberEmail: subscriber.email,
         subscriberName: subscriber.name,
@@ -160,11 +171,12 @@ async function processNewMessage(userId: string, messageId: string) {
 
     // Add to Kit
     const kitService = new KitService(kitIntegration.apiKey);
-    const result = await kitService.addSubscriber(
-      { email: subscriber.email, name: subscriber.name || "" }
-    );
+    const result = await kitService.addSubscriber({
+      email: subscriber.email,
+      name: subscriber.name || "",
+    });
 
-    if(result) {
+    if (result) {
       for (const tag of tags) {
         await kitService.addTagToEmail({ email: subscriber.email, tag: tag });
       }

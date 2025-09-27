@@ -211,7 +211,7 @@ model SubscriberLog {
   error           String?
 
   // Raw email data for debugging
-  gmailMessageId String
+  gmailMessageId String @unique
   rawEmailData   Json?
 
   createdAt DateTime @default(now())
