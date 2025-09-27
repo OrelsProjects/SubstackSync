@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Process the history changes
-    await processGmailHistory(gmailIntegration.userId, historyId);
+    await processGmailHistory(gmailIntegration.userId);
 
     return NextResponse.json({ success: true });
 
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function processGmailHistory(userId: string, historyId: string) {
+async function processGmailHistory(userId: string) {
   try {
     console.log("[TESTING] Processing Gmail history for user:", userId);
     const gmailService = new GmailService(userId);
@@ -76,22 +76,15 @@ async function processGmailHistory(userId: string, historyId: string) {
 
     console.log("[TESTING] Gmail integration found for user:", integration);
 
-    if (!integration) {
+    if (!integration?.historyId) {
       console.error("No Gmail integration found for user:", userId);
       return;
-    }
-
-    if (integration.historyId !== historyId) {
-      await prisma.gmailIntegration.update({
-        where: { userId },
-        data: { historyId: historyId.toString() },
-      });
     }
 
     console.log("[TESTING] History ID updated for user:", userId);
 
     // Get history changes
-    const history = await gmailService.getHistory(historyId);
+    const history = await gmailService.getHistory(integration.historyId);
     // Update the history ID
     if (history.historyId) {
       await prisma.gmailIntegration.update({
@@ -104,6 +97,7 @@ async function processGmailHistory(userId: string, historyId: string) {
 
     if (!history.history) {
       // No new messages
+      console.log("[TESTING] No new messages for user:", userId);
       return;
     }
 
