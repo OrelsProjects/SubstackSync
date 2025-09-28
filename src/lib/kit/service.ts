@@ -1,9 +1,19 @@
-import loggerServer from "@/app/loggerServer";
+import loggerServer from "@/loggerServer";
 import {
   AddSubscriberParams,
   AddTagParams,
   KitAddSubscriberResponse,
 } from "@/types/mail-service";
+
+function sanitizeName(rawName: string | null | undefined): string | null {
+  if (!rawName) return null;
+
+  // Keep only letters and spaces
+  let clean = rawName.replace(/[^a-zA-Z\s]/g, "").trim();
+
+  // If nothing left after cleaning, just return null
+  return clean.length > 0 ? clean : null;
+}
 
 export class KitService {
   private baseUrl = "https://api.kit.com/v4";
@@ -41,6 +51,10 @@ export class KitService {
         lastName = name.lastName || "";
         fullName = name.fullName || "";
       }
+
+      firstName = sanitizeName(firstName) || "";
+      lastName = sanitizeName(lastName) || "";
+      fullName = sanitizeName(fullName) || "";
 
       const response = await fetch(`${this.baseUrl}/subscribers`, {
         method: "POST",
@@ -139,7 +153,7 @@ export class KitService {
   async fetchTags() {
     try {
       loggerServer.info("Fetching tags from Kit");
-      
+
       const response = await fetch(`${this.baseUrl}/tags`, {
         method: "GET",
         headers: this.headers,
@@ -154,7 +168,7 @@ export class KitService {
 
       const data = await response.json();
       loggerServer.info(`Fetched ${data.tags?.length || 0} tags from Kit`);
-      
+
       // Kit returns tags in { tags: [ { id, name, created_at } ] } format
       return data.tags || [];
     } catch (error: any) {

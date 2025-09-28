@@ -5,6 +5,7 @@ import SessionWrapper from "@/app/providers/SessionWrapper";
 import StoreProvider from "@/app/providers/StoreProvider";
 import { ToastProvider } from "@/app/providers/ToastProvider";
 import { Suspense } from "react";
+import ClientTrackersProvider from "@/app/providers/ClientTrackersProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -83,7 +84,9 @@ export default function RootLayout({
         <Suspense fallback={<div>Loading...</div>}>
           <StoreProvider>
             <ToastProvider />
-            <SessionWrapper>{children}</SessionWrapper>
+            <SessionWrapper>
+              <ClientTrackersProvider>{children}</ClientTrackersProvider>
+            </SessionWrapper>
           </StoreProvider>
         </Suspense>
       </body>

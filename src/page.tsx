@@ -65,56 +65,23 @@ const faqItems = [
   {
     question: "Which platforms does SubstackSync integrate with?",
     answer:
-      "Currently, SubstackSync integrates with Substack, and email marketing tools including Mailchimp, ActiveCampaign, HubSpot, Sendinblue, and Constant Contact.<br/> We are will continually add more integrations based on user feedback.",
+      "Currently, SubstackSync integrates with Substack and Kit (ConvertKit). I'll add more integrations based on user feedback.",
   },
   {
     question:
       "Do I need any technical skills or coding knowledge to use SubstackSync?",
     answer:
-      "No technical skills or coding knowledge are required. SubstackSync is designed to be user-friendly with an intuitive interface. Setting up integrations is as simple as a few clicks, and we provide step-by-step guides to assist you.",
+      "No technical skills or coding knowledge are required. SubstackSync is dead simple to use. Try it, you'll see.",
   },
   {
     question: "How secure is SubstackSync?",
     answer:
-      "We take data security very seriously. SubstackSync will never read private emails. We only read emails from Substack to detect new subscribers. We do not store any content for personal use.",
-  },
-  {
-    question:
-      "Will SubstackSync interfere with my existing workflows or tools?",
-    answer:
-      "No, SubstackSync is designed to enhance your existing workflows, not disrupt them. It operates in the background, automating subscriber additions without requiring changes to your current processes or tools.",
+      "I take data security very seriously. SubstackSync will never read private emails. It only reads emails from Substack to detect new subscribers. I do not store any content for personal use.",
   },
   {
     question: "How often does SubstackSync sync new subscribers?",
     answer:
-      "SubstackSync syncs new subscribers in real-time or near real-time. As soon as a subscriber signs up on your content platform, they are automatically added to your specified mailing list.",
-  },
-];
-
-const reviews = [
-  {
-    name: "Anfernee",
-    text: "Anfernee is a solopreneur who has helped over 15,000 fellow solopreneurs.",
-    about:
-      "Helping more than 15,000 solopreneurs get more done and earn more with Notion and AI solutions | Post about solopreneurship, productivity, Notion and AI.",
-    img: "/reviews/anfernee.jpg",
-    url: "https://substack.com/@anferneeck",
-  },
-  {
-    name: "David Mcllroy",
-    text: "With over 13,000 subscribers, David is interested in the product.",
-    about:
-      "I help writers make a living from their words. ✍️ Constantly experimenting, always transparent. Full-time solopreneur, writer and newsletter growth nerd. Lives in Northern Ireland.",
-    img: "/reviews/david-mcllroy.jpg",
-    url: "https://substack.com/@thedavidmcilroy",
-  },
-  {
-    name: "Maya Sayvanova",
-    text: "I'm absolutely interested in SubstackSync! It will make our lives much easier.",
-    about:
-      "6-Figure Writer & Marketing Strategist | Featured in Business Insider | Blogger with 250K views",
-    img: "/reviews/maya-sayvanova.jpg",
-    url: "https://substack.com/@mayasayvanova",
+      "SubstackSync syncs new subscribers in real-time. As soon as a subscriber signs up on your content platform, they are automatically added to your specified mailing list.",
   },
 ];
 
@@ -145,29 +112,8 @@ function FAQSection() {
 }
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const inputRef = useRef<HTMLDivElement>(null);
 
-  const loadingRef = useRef<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (loadingRef.current) return;
-    e.preventDefault();
-    try {
-      loadingRef.current = true;
-      setLoading(true);
-      await axios.post("/api/register", { email });
-      setSubmitted(true);
-      setEmail("");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-      loadingRef.current = false;
-    }
-  };
 
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -184,12 +130,6 @@ export default function Home() {
         behavior: "smooth",
       });
     }
-  };
-
-  const scrollToInput = () => {
-    inputRef.current?.scrollIntoView({ behavior: "smooth" });
-    // wait 400ms for the scroll to complete before focusing
-    setTimeout(() => inputRef.current?.querySelector("input")?.focus(), 600);
   };
 
   const MarqueeComponent = ({ children }: { children: React.ReactNode }) => (
@@ -236,13 +176,6 @@ export default function Home() {
               className="text-muted-foreground hover:text-primary"
             >
               FAQ
-            </Link>
-            <Link
-              href="#interested"
-              onClick={(e) => scrollToSection(e, "interested")}
-              className="text-muted-foreground hover:text-primary"
-            >
-              Who&apos;s Interested
             </Link>
             <Button
               onClick={() => window.location.href = '/login'}
@@ -388,117 +321,8 @@ export default function Home() {
           </ol>
         </motion.section>
 
-        {/* Interested Users Section */}
-        {/* <motion.section
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.2 }}
-          className="mt-16"
-          id="interested"
-        >
-          <h2 className="text-3xl font-bold text-center text-primary mb-8">
-            Who&apos;s Interested
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {reviews.map((review, index) => (
-              <motion.div key={index} variants={testimonialAnimation}>
-                <Card className="h-full bg-card/20 backdrop-filter backdrop-blur-lg bg-opacity-20 border border-border shadow-xl rounded-xl overflow-hidden">
-                  <CardContent className="p-6 flex flex-col h-full">
-                    <div className="flex items-center mb-4">
-                      <Image
-                        src={review.img}
-                        alt={review.name}
-                        width={60}
-                        height={60}
-                        className="rounded-full mr-4"
-                      />
-                      <div>
-                        <h3 className="font-semibold text-lg">{review.name}</h3>
-                        <a
-                          href={review.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline text-sm"
-                        >
-                          View Profile
-                        </a>
-                      </div>
-                    </div>
-                    <p className="text-muted-foreground mb-4 flex-grow">
-                      {review.text}
-                    </p>
-                    <p className="text-sm text-muted-foreground/80 italic">
-                      {review.about}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section> */}
 
         <FAQSection />
-
-        {/* Get Early Access Section */}
-        <motion.section
-          ref={inputRef}
-          {...animationProps}
-          className="w-full max-w-md mb-16"
-        >
-          <Card className="bg-card/20 backdrop-filter backdrop-blur-lg bg-opacity-20 border border-border shadow-xl rounded-xl overflow-hidden">
-            <CardHeader>
-              <CardTitle className="text-2xl text-primary">
-                Get Early Access
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Be among the first to revolutionize your workflow
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-6">
-              {!submitted ? (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="bg-background/50 border-border text-foreground placeholder-muted-foreground"
-                  />
-                  <Button
-                    disabled={loading}
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader className="mr-2 h-4 w-4 animate-spin" />
-                        Please wait
-                      </>
-                    ) : (
-                      <>
-                        <Mail className="mr-2 h-4 w-4" /> Join the Waitlist
-                      </>
-                    )}
-                  </Button>
-                </form>
-              ) : (
-                <div className="text-center space-y-4">
-                  <div className="flex items-center justify-center text-green-600">
-                    <CheckCircle className="mr-2 h-6 w-6" />
-                    <span className="text-lg font-semibold">
-                      Thank you for your interest!
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground">
-                    We&apos;ll keep you updated on our launch.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.section>
 
         {/* Footer */}
         <motion.footer {...fadeInAnimation} className="text-center mb-8">

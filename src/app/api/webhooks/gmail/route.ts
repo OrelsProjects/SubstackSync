@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { GmailService } from "@/lib/gmail/service";
 import { SubstackEmailParser } from "@/lib/gmail/parser";
 import { KitService } from "@/lib/kit/service";
+import loggerServer from "@/loggerServer";
 
 interface PubSubMessage {
   message: {
@@ -182,7 +183,10 @@ async function processNewMessage(userId: string, messageId: string) {
     });
 
     if (!kitIntegration) {
-      console.log("No Kit integration found for user:", userId);
+      loggerServer.debug(
+        "[PROCESS-NEW-MESSAGE] No Kit integration found for user:",
+        { userId }
+      );
       return;
     }
 

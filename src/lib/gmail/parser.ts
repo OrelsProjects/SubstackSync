@@ -57,10 +57,10 @@ export class SubstackEmailParser {
 
   static isSubstackSubscriberEmail(message: gmail_v1.Schema$Message): boolean {
     const from = this.getEmailHeader(message, "from");
-    const subject = this.getEmailHeader(message, "subject");
 
     // Check if email is from Substack
-    if (!from?.includes("substack.com")) return false;
+    if (!from?.includes("substack.com") && !from?.includes("writestack.io"))
+      return false;
     return true;
   }
 
