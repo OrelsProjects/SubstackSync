@@ -85,7 +85,8 @@ export default function RootLayout({
           <StoreProvider>
             <ToastProvider />
             <SessionWrapper>
-              <ClientTrackersProvider>{children}</ClientTrackersProvider>
+              {/* <ClientTrackersProvider /> */}
+              {children}
             </SessionWrapper>
           </StoreProvider>
         </Suspense>

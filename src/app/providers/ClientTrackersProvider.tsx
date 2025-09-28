@@ -5,11 +5,7 @@ import { useAppSelector } from "@/lib/hooks/redux";
 import { initLogger, setUserLogger } from "@/logger";
 import { useEffect, useState } from "react";
 
-export default function ClientTrackersProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ClientTrackersProvider() {
   const [isInitialized, setIsInitialized] = useState(false);
   const { user } = useAppSelector(state => state.auth);
 
@@ -33,9 +29,6 @@ export default function ClientTrackersProvider({
     }
   }, [user]);
 
-  if (!isInitialized) {
-    return null;
-  }
 
-  return children;
+  return null;
 }
