@@ -10,6 +10,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Poppins } from "@/utils/fonts";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -22,6 +31,7 @@ import {
   Settings,
   Zap,
   AlertCircle,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -64,6 +74,9 @@ export default function SettingsPage() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteEmail, setDeleteEmail] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -127,6 +140,50 @@ export default function SettingsPage() {
       setMessage({ type: "error", text: "Failed to connect Gmail" });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!deleteEmail) {
+      setMessage({ type: "error", text: "Please enter your email address" });
+      return;
+    }
+
+    if (deleteEmail !== session?.user?.email) {
+      setMessage({
+        type: "error",
+        text: "Email address does not match your account",
+      });
+      return;
+    }
+
+    try {
+      setDeleteLoading(true);
+      setMessage(null);
+
+      const response = await axios.delete("/api/user/delete-account", {
+        data: { email: deleteEmail },
+      });
+
+      if (response.data.success) {
+        setMessage({
+          type: "success",
+          text: "Account deleted successfully",
+        });
+
+        // Redirect to login after a short delay
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error("Delete account error:", error);
+      setMessage({
+        type: "error",
+        text: error.response?.data?.error || "Failed to delete account",
+      });
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -386,6 +443,105 @@ export default function SettingsPage() {
                   automatically be added to Kit with the appropriate tags
                 </li>
               </ol>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <h3 className="text-lg font-bold text-red-600 dark:text-red-400 mt-10 pt-2">
+          Danger Zone
+        </h3>
+
+        {/* Delete Account Section */}
+        <motion.div {...fadeInAnimation} className="mt-8">
+          <Card className="border-red-200 dark:border-red-800">
+            <CardHeader>
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
+                  <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
+                </div>
+                <div>
+                  <CardTitle className="text-red-600 dark:text-red-400">
+                    Delete Account
+                  </CardTitle>
+                  <CardDescription>
+                    Permanently delete your SubstackSync account and all
+                    associated data
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                This action cannot be undone. All your Gmail integrations, Kit
+                settings, subscriber logs, and account data will be permanently
+                deleted.
+              </p>
+
+              <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete Account
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Delete Account</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. Please enter your email
+                      address to confirm.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="deleteEmail">Email Address</Label>
+                      <Input
+                        id="deleteEmail"
+                        type="email"
+                        placeholder="Enter your email address"
+                        value={deleteEmail}
+                        onChange={(e) => setDeleteEmail(e.target.value)}
+                        className="mt-1"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Enter: {session?.user?.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DialogFooter className="flex flex-col sm:flex_row gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setDeleteOpen(false);
+                        setDeleteEmail("");
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={handleDeleteAccount}
+                      disabled={deleteLoading || !deleteEmail}
+                      className="bg-red-600 hover:bg-red-700"
+                    >
+                      {deleteLoading ? (
+                        <>
+                          <Loader className="mr-2 h-4 w-4 animate-spin" />
+                          Deleting...
+                        </>
+                      ) : (
+                        <>
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete Account
+                        </>
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         </motion.div>

@@ -24,6 +24,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Footer } from "@/components/ui/footer";
 
 const animationProps = {
   initial: { opacity: 0, scale: 1, y: 20 },
@@ -324,7 +325,7 @@ export default function Home() {
 
         <FAQSection />
 
-        {/* Footer */}
+        {/* Hero Footer */}
         <motion.footer {...fadeInAnimation} className="text-center mb-8">
           <p className="text-sm text-muted-foreground">
             Supercharge your content creation workflow with our automated
@@ -336,6 +337,9 @@ export default function Home() {
           </div>
         </motion.footer>
       </div>
+      
+      {/* Main Site Footer */}
+      <Footer />
     </div>
   );
 }
