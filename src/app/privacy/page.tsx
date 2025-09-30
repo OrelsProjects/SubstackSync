@@ -1,208 +1,197 @@
-// app/terms/page.tsx
-import React from "react";
-
-export default function TermsPage() {
+export default function PrivacyPage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-12 text-gray-800">
-      <h1 className="text-4xl font-bold mb-8">
-        Terms of Service & Privacy Policy
-      </h1>
+      <h1 className="text-4xl font-bold mb-2">Privacy Policy</h1>
+      <p className="text-sm text-gray-500 mb-8">
+        Last Updated 30 September 2025
+      </p>
 
-      {/* Terms of Service */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Terms of Service</h2>
-        <p className="mb-4 text-sm text-gray-500">
-          Last Updated: 29th September 2025
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">1. Eligibility</h3>
-        <p>
-          You must be at least 18 years old and legally capable of entering into
-          a contract.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          2. Service Description
-        </h3>
-        <p>
-          {`Our app integrates with Gmail to help users manage new subscribers
-          from Substack. 
-          - We access incoming Substack notification emails via
-          Gmail API. 
-          - We parse the email body to extract subscriber details
-          (name and email), since Substack includes this info only inside the
-          message content. 
-          - These details are stored securely in our system only
-          to provide functionality for the user, such as syncing with their
-          email service provider and showing subscriber history inside the app.
-          - We do not use this data for any other purpose, nor do we sell or share
-          it. 
-          - Users can disconnect at any time, which stops data collection and
-          removes stored data.`}
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          3. User Responsibilities
-        </h3>
-        <ul className="list-disc list-inside">
-          <li>Comply with GDPR, CCPA, CAN-SPAM, and other laws.</li>
-          <li>Have proper consent to transfer subscriber info.</li>
-          <li>Ensure accuracy of your integrations.</li>
-        </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">4. Acceptable Use</h3>
-        <p>
-          No spam, unlawful activity, reverse engineering, or system abuse.
-          Violations may result in suspension.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          5. Subscription & Payment
-        </h3>
-        <p>
-          Pricing is posted on our website. Fees are billed in advance,
-          non-refundable except as required by law.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">6. Data Ownership</h3>
-        <p>
-          Subscriber data remains your property. We act only as a processor. You
-          grant us a limited license to process data solely for providing the
-          Service.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          7. Third-Party Services
-        </h3>
-        <p>
-          We integrate with Substack and ESPs. We’re not responsible for their
-          availability or policies.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          8. Service Availability
-        </h3>
-        <p>
-          We do not guarantee uptime or error-free operation. Features may be
-          modified or suspended at our discretion.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          9. Limitation of Liability
-        </h3>
-        <p>
-          To the fullest extent permitted by law, our liability is limited to
-          the fees you paid in the past 12 months.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">10. Indemnification</h3>
-        <p>
-          You agree to indemnify us from claims arising from your use of the
-          Service.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">11. Termination</h3>
-        <p>
-          We may suspend or terminate your account for violations. You may
-          cancel anytime.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">12. Governing Law</h3>
-        <p>These Terms are governed by the laws of [Insert Jurisdiction].</p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">13. Changes</h3>
-        <p>
-          We may update these Terms at any time. Continued use means acceptance.
+      {/* Overview */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Overview</h2>
+        <p className="mb-4">
+          SubstackSync connects to your Google account to read Substack
+          notification emails in order to detect new subscribers, extract their
+          name and email, and sync them to the email service providers you
+          choose. This policy explains what we access, how we use it, how we
+          share it, how we protect it, and how you can control it.
         </p>
       </section>
 
-      {/* Privacy Policy */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Privacy Policy</h2>
-        <p className="mb-4 text-sm text-gray-500">
-          Last Updated: [Insert Date]
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          1. Information We Collect
-        </h3>
-        <ul className="list-disc list-inside">
-          <li>Account details: name, email, payment info.</li>
+      {/* Data Accessed */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Data Accessed</h2>
+        <p className="mb-3">Via the Gmail API we access only the following:</p>
+        <ul className="list-disc list-inside space-y-2">
           <li>
-            Subscriber details from Substack integrations (transient processing
-            only).
+            Email metadata from Substack notification emails (subject, sender,
+            timestamp).
+          </li>
+          <li>
+            Email body content strictly to extract subscriber name and email
+            address.
+          </li>
+          <li>
+            Google account email address used for authentication and linking
+            your SubstackSync account.
           </li>
         </ul>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">2. How We Use Info</h3>
-        <p>
-          To operate syncing, secure accounts, provide support, and improve
-          performance.
+        <p className="mt-4">
+          We do not access Gmail messages unrelated to Substack notifications,
+          nor do we access your contacts, calendars, or Google Drive files.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          3. Data Processing Role
-        </h3>
-        <p>
-          We act as Data Processor for subscriber data. You are the Data
-          Controller and must ensure lawful processing.
+      {/* Data Usage */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Data Usage</h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>
+            Identify new Substack subscribers from your incoming Substack
+            notification emails.
+          </li>
+          <li>
+            Extract subscriber name and email for syncing to your connected
+            email service provider.
+          </li>
+          <li>
+            Display subscriber history and subscription events in your
+            SubstackSync dashboard.
+          </li>
+          <li>Authenticate your account and secure access.</li>
+        </ul>
+        <p className="mt-4">
+          We do not use Gmail data for advertising, profiling, or unrelated
+          purposes.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">4. Data Retention</h3>
-        <p>
-          We don’t permanently store subscriber lists. Account data is kept
-          while active or legally required.
+      {/* Data Sharing */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Data Sharing</h2>
+        <p className="mb-3">
+          We never sell or rent your data. We share data only in these cases:
         </p>
+        <ul className="list-disc list-inside space-y-2">
+          <li>With the email service providers you explicitly connect.</li>
+          <li>
+            With hosting and infrastructure providers that support our service
+            under strict agreements.
+          </li>
+          <li>If required by law or to protect our rights.</li>
+        </ul>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">5. Data Security</h3>
+      {/* Storage and Protection */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">
+          Data Storage and Protection
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>
+            Data is stored in databases protected by authentication and access
+            controls.
+          </li>
+          <li>Access to production systems is restricted and monitored.</li>
+          <li>API tokens are stored securely and rotated when necessary.</li>
+          <li>
+            We implement reasonable technical and organizational measures to
+            protect your data against unauthorized access or loss.
+          </li>
+        </ul>
+      </section>
+
+      {/* Retention and Deletion */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">
+          Data Retention and Deletion
+        </h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>
+            Subscriber details and related events are kept while your account is
+            active.
+          </li>
+          <li>
+            When you disconnect Gmail or close your account, your Google-derived
+            data is deleted within 7 days. Backups and logs are purged on a
+            rolling basis within 90 days.
+          </li>
+          <li>
+            You can request deletion at any time by emailing{" "}
+            <a
+              className="text-blue-600 underline"
+              href="mailto:support@substacksync.com"
+            >
+              support@substacksync.com
+            </a>
+            . We respond to verified requests within 30 days.
+          </li>
+        </ul>
+      </section>
+
+      {/* User Controls */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Your Controls</h2>
+        <ul className="list-disc list-inside space-y-2">
+          <li>Disconnect Gmail at any time to stop access.</li>
+          <li>
+            Revoke Gmail access from your Google Account security settings.
+          </li>
+          <li>
+            Request access, correction, or deletion of your personal data by
+            contacting support.
+          </li>
+        </ul>
+      </section>
+
+      {/* Compliance Note */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Compliance Note</h2>
         <p>
-          We use TLS encryption, access controls, and industry-standard
-          safeguards.
+          For subscriber data, you are the data controller and SubstackSync acts
+          as a processor. We comply with applicable privacy laws and use Google
+          user data only to provide the service you requested.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">6. Sharing</h3>
+      {/* International Transfers */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">International Transfers</h2>
         <p>
-          We share data only with: (i) platforms you connect, (ii) service
-          providers, (iii) legal authorities when required.
+          Data may be processed in other countries. We take reasonable measures
+          to safeguard it during such transfers.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          7. International Transfers
-        </h3>
+      {/* Children */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Children</h2>
         <p>
-          Your data may be processed in other countries with different data
-          protection laws.
+          SubstackSync is not intended for people under 18. We do not knowingly
+          collect data from children.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">8. Your Rights</h3>
+      {/* Changes */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold mb-3">Changes</h2>
         <p>
-          Depending on your location, you may request access, correction,
-          deletion, or portability of your personal data.
+          We may update this policy. If changes are material we will notify you
+          through the app or email.
         </p>
+      </section>
 
-        <h3 className="text-xl font-semibold mt-6 mb-2">
-          9. Children’s Privacy
-        </h3>
+      {/* Contact */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-3">Contact</h2>
         <p>
-          Not for individuals under 18. We do not knowingly collect children’s
-          data.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">10. Changes</h3>
-        <p>
-          We may update this Policy. You will be notified of material changes.
-        </p>
-
-        <h3 className="text-xl font-semibold mt-6 mb-2">11. Contact</h3>
-        <p>
-          Questions? Email us at{" "}
+          Questions or requests:{" "}
           <a
-            href="mailto:support@substacksync.com"
             className="text-blue-600 underline"
+            href="mailto:support@substacksync.com"
           >
             support@substacksync.com
           </a>
-          .
         </p>
       </section>
     </main>
