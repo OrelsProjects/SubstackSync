@@ -1,4 +1,4 @@
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Marquee from "react-fast-marquee";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -21,10 +21,10 @@ export default function Hero() {
     </>
   );
   return (
-    <section className="relative bg-gradient-to-b from-muted/30 to-background py-20 px-4 sm:px-6 lg:px-8 h-screen">
+    <section className="relative bg-gradient-to-b from-muted/30 to-background py-20 px-4 sm:px-6 lg:px-8 h-screen flex items-center">
       <div className="max-w-7xl mx-auto">
         <div className="text-center animate-fade-in">
-          <h1 className="text-4xl leading-[3.4rem] sm:text-6xl sm:leading-[4rem] font-extrabold tracking-tight mb-6">
+          <h1 className="text-4xl leading-[3.4rem] sm:text-7xl sm:leading-[5.5rem] font-extrabold tracking-tight mb-6">
             <p>Add Substack subscribers</p>
             <p>
               to your mailing list
@@ -44,7 +44,7 @@ export default function Hero() {
             </p>
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
             No more exports, no more Zapier headaches. SubstackSync makes sure
             every new subscriber is instantly where they belong — your mailing
             list.
