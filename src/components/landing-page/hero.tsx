@@ -45,7 +45,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-lg sm:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            No more exports, no more Zapier headaches. SubstackSync makes sure
+            No more exports, no more Zapier headaches. 2 minutes setup and SubstackSync makes sure
             every new subscriber is instantly where they belong — your mailing
             list.
           </p>

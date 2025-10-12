@@ -38,8 +38,6 @@ export class GmailService {
       userId: "me",
       requestBody: {
         topicName,
-        labelIds: ["INBOX"],
-        labelFilterBehavior: "INCLUDE",
       },
     });
 
