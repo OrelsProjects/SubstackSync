@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface KitDialogProps {
   children: React.ReactNode;
@@ -57,7 +58,7 @@ export const KitDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-green-500 rounded flex items-center justify-center">
@@ -74,18 +75,24 @@ export const KitDialog = ({
           <Card>
             <CardHeader>
               <CardTitle className="text-sm">
-                How to get your API credentials
+                How to get your API V4 Key
               </CardTitle>
               <CardDescription className="text-xs">
-                You&apos;ll need your API Key and API Secret from Kit (
+                You&apos;ll need your API Key from Kit (
                 <strong>API V4</strong>).
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
+              <Image
+                src="/kit-api-v4.png"
+                alt="Kit API V4"
+                fill
+                className="w-full !relative h-80 aspect-squares border shadow-sm rounded-lg"
+              />
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full"
+                className="w-full mt-4"
                 onClick={() =>
                   window.open(
                     "https://app.Kit.com/account_settings/developer_settings",
@@ -105,7 +112,7 @@ export const KitDialog = ({
               <Input
                 id="apiKey"
                 type="text"
-                placeholder="Enter your Kit API Key"
+                placeholder="Enter your Kit API V4 Key"
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 disabled={isConnecting}
