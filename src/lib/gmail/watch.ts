@@ -6,7 +6,9 @@ import { GmailService } from "@/lib/gmail/service";
 
 export async function startGmailWatch(userId: string, options: {
     stopCurrentWatch?: boolean;
-} = {}) {
+} = {
+  stopCurrentWatch: true,
+}) {
   if (options.stopCurrentWatch) {
     await stopGmailWatch(userId);
   }

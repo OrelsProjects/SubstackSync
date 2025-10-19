@@ -76,15 +76,6 @@ export default function HomePage() {
     console.log("View failures clicked");
   };
 
-  const handleDocumentation = () => {
-    window.open("https://docs.substacksync.com", "_blank");
-  };
-
-  const handleLiveChat = () => {
-    // TODO: Implement live chat
-    console.log("Live chat clicked");
-  };
-
   const handleKitConnect = async (apiKey: string, apiSecret?: string) => {
     try {
       await connectKit(apiKey, apiSecret);

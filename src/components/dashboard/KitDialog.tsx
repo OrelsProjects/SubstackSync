@@ -12,7 +12,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +28,11 @@ interface KitDialogProps {
   loading?: boolean;
 }
 
-export const KitDialog = ({ children, onConnect, loading = false }: KitDialogProps) => {
+export const KitDialog = ({
+  children,
+  onConnect,
+  loading = false,
+}: KitDialogProps) => {
   const [open, setOpen] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [apiSecret, setApiSecret] = useState("");
@@ -30,7 +40,7 @@ export const KitDialog = ({ children, onConnect, loading = false }: KitDialogPro
 
   const handleConnect = async () => {
     if (!apiKey.trim()) return;
-    
+
     setIsConnecting(true);
     try {
       await onConnect?.(apiKey, apiSecret);
@@ -56,8 +66,7 @@ export const KitDialog = ({ children, onConnect, loading = false }: KitDialogPro
             <span>Connect Kit</span>
           </DialogTitle>
           <DialogDescription>
-            Connect your Kit account to start syncing subscribers
-            automatically.
+            Connect your Kit account to start syncing subscribers automatically.
           </DialogDescription>
         </DialogHeader>
 
@@ -68,7 +77,8 @@ export const KitDialog = ({ children, onConnect, loading = false }: KitDialogPro
                 How to get your API credentials
               </CardTitle>
               <CardDescription className="text-xs">
-                You&apos;ll need your API Key and API Secret from Kit
+                You&apos;ll need your API Key and API Secret from Kit (
+                <strong>API V4</strong>).
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
@@ -91,7 +101,7 @@ export const KitDialog = ({ children, onConnect, loading = false }: KitDialogPro
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="apiKey">API Key *</Label>
+              <Label htmlFor="apiKey">API V4 Key *</Label>
               <Input
                 id="apiKey"
                 type="text"
@@ -100,21 +110,6 @@ export const KitDialog = ({ children, onConnect, loading = false }: KitDialogPro
                 onChange={(e) => setApiKey(e.target.value)}
                 disabled={isConnecting}
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="apiSecret">API Secret (Optional)</Label>
-              <Input
-                id="apiSecret"
-                type="password"
-                placeholder="Enter your Kit API Secret"
-                value={apiSecret}
-                onChange={(e) => setApiSecret(e.target.value)}
-                disabled={isConnecting}
-              />
-              <p className="text-xs text-muted-foreground">
-                API Secret is optional but recommended for enhanced security
-              </p>
             </div>
           </div>
 
